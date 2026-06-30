@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Yamato Security — Open-source DFIR &amp; threat hunting tools</title>
+<meta name="description" content="Yamato Security (大和セキュリティ) builds free, open-source tools for digital forensics, incident response and threat hunting across Windows event logs and cloud logs.">
+<link rel="icon" href="https://avatars.githubusercontent.com/u/72480401?s=120&v=4">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Yamato Security — Open-source DFIR & threat hunting tools">
+<meta property="og:description" content="Free, open-source DFIR & threat hunting tools for Windows event logs and cloud logs.">
+<meta property="og:image" content="https://avatars.githubusercontent.com/u/72480401?s=400&v=4">
+<meta name="twitter:card" content="summary">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Serif+JP:wght@600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0a0c10; --bg2:#0e1117; --card:#141925; --card-h:#1a2030;
+    --bd:#222a39; --bd-h:#33415a; --tx:#e7edf5; --mut:#93a1b4; --accent:#e23b3b;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0; background:
+      radial-gradient(1100px 520px at 50% -160px, rgba(226,59,59,.16), transparent 70%),
+      radial-gradient(900px 500px at 90% 8%, rgba(91,141,239,.10), transparent 65%),
+      var(--bg);
+    color:var(--tx); font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+    line-height:1.6; -webkit-font-smoothing:antialiased;
+  }
+  a{color:inherit; text-decoration:none}
+  .wrap{max-width:1120px; margin:0 auto; padding:0 24px}
+
+  /* header */
+  header{padding:84px 0 26px; text-align:center}
+  .logo{width:108px;height:108px;border-radius:26px;border:1px solid var(--bd);
+    box-shadow:0 10px 40px rgba(0,0,0,.5); background:#fff}
+  h1{font-size:clamp(34px,5vw,52px); font-weight:800; letter-spacing:-.02em; margin:22px 0 2px}
+  .jp{font-family:"Noto Serif JP",serif; color:var(--mut); font-size:20px; letter-spacing:.18em; font-weight:600}
+  .tag{max-width:680px; margin:18px auto 0; color:var(--mut); font-size:18px}
+  .socials{display:flex; gap:12px; justify-content:center; margin-top:26px; flex-wrap:wrap}
+  .btn{display:inline-flex; align-items:center; gap:8px; padding:10px 18px; border-radius:11px;
+    border:1px solid var(--bd); background:var(--card); color:var(--tx); font-weight:600; font-size:14px;
+    transition:.18s}
+  .btn:hover{border-color:var(--bd-h); background:var(--card-h); transform:translateY(-1px)}
+  .btn.primary{background:var(--accent); border-color:var(--accent); color:#fff}
+  .btn.primary:hover{background:#c92f2f}
+  .btn svg{width:16px;height:16px;fill:currentColor}
+
+  /* section */
+  .sec{margin-top:54px}
+  .sec h2{font-size:14px; font-weight:700; letter-spacing:.16em; text-transform:uppercase;
+    color:var(--mut); margin:0 0 18px; display:flex; align-items:center; gap:12px}
+  .sec h2::after{content:""; flex:1; height:1px; background:linear-gradient(90deg,var(--bd),transparent)}
+
+  .grid{display:grid; gap:18px; grid-template-columns:repeat(auto-fill,minmax(330px,1fr))}
+  .card{position:relative; display:flex; flex-direction:column; padding:22px; border-radius:16px;
+    background:var(--card); border:1px solid var(--bd); transition:.2s; overflow:hidden}
+  .card::before{content:""; position:absolute; inset:0 0 auto 0; height:3px; background:var(--c,#e23b3b); opacity:.9}
+  .card:hover{transform:translateY(-4px); border-color:var(--bd-h); background:var(--card-h);
+    box-shadow:0 16px 40px rgba(0,0,0,.45)}
+  .top{display:flex; align-items:center; gap:14px}
+  .crest{flex:none; width:56px;height:56px;border-radius:14px; display:grid; place-items:center;
+    font-family:"Noto Serif JP",serif; font-weight:700; font-size:24px; color:#fff;
+    background:var(--c,#e23b3b); box-shadow:inset 0 0 0 1px rgba(255,255,255,.18), 0 6px 16px rgba(0,0,0,.35)}
+  .crest.sm{font-size:19px}
+  .name{font-size:20px; font-weight:700; letter-spacing:-.01em}
+  .sub{color:var(--mut); font-size:13px; font-family:"Noto Serif JP",serif; letter-spacing:.06em}
+  .desc{color:#c4cedb; font-size:14.5px; margin:15px 0 0; flex:1}
+  .meta{display:flex; align-items:center; gap:6px; color:var(--mut); font-size:13px; margin-top:14px}
+  .meta svg{width:14px;height:14px;fill:#e3b341}
+  .actions{display:flex; gap:10px; margin-top:16px}
+  .actions a{flex:1; justify-content:center; font-size:13.5px; padding:9px 12px}
+
+  footer{margin:72px 0 56px; text-align:center; color:var(--mut); font-size:14px}
+  footer .socials{margin:0 0 18px}
+  footer a.link{color:var(--mut); border-bottom:1px solid transparent}
+  footer a.link:hover{color:var(--tx); border-color:var(--mut)}
+  .fineprint{margin-top:14px; font-size:12.5px; opacity:.75}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <img class="logo" src="https://avatars.githubusercontent.com/u/72480401?s=216&v=4" alt="Yamato Security logo">
+    <h1>Yamato Security</h1>
+    <div class="jp">大和セキュリティ</div>
+    <p class="tag">Free, open-source tools for digital forensics, incident response &amp; threat hunting — across Windows event logs and the cloud.</p>
+    <div class="socials">
+      <a class="btn primary" href="https://github.com/Yamato-Security">
+        <svg viewBox="0 0 16 16"><path d="M8 0C3.58 0 0 3.58 0 8a8 8 0 0 0 5.47 7.59c.4.07.55-.17.55-.38v-1.34c-2.23.49-2.7-1.08-2.7-1.08-.36-.92-.89-1.17-.89-1.17-.73-.5.06-.49.06-.49.81.06 1.23.83 1.23.83.72 1.23 1.88.87 2.34.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.6 7.6 0 0 1 4 0c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.28.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48v2.2c0 .21.15.46.55.38A8 8 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg>
+        GitHub
+      </a>
+      <a class="btn" href="https://twitter.com/SecurityYamato">
+        <svg viewBox="0 0 16 16"><path d="M12.6 0h2.45l-5.36 6.12L16 16h-4.94l-3.87-5.06L2.76 16H.3l5.73-6.55L0 0h5.06l3.5 4.62L12.6 0Zm-.86 14.5h1.36L4.32 1.42H2.86L11.74 14.5Z"/></svg>
+        @SecurityYamato
+      </a>
+    </div>
+  </header>
+
+  <main>
+    <section class="sec">
+      <h2>Windows event log DFIR</h2>
+      <div class="grid">
+
+        <div class="card" style="--c:#e23b3b">
+          <div class="top">
+            <div class="crest">隼</div>
+            <div><div class="name">Hayabusa</div><div class="sub">隼 · falcon</div></div>
+          </div>
+          <p class="desc">Sigma-based threat hunting and fast forensics timeline generator for Windows event logs.</p>
+          <div class="meta"><svg viewBox="0 0 16 16"><path d="M8 .25l2.4 4.86 5.35.78-3.87 3.78.91 5.33L8 12.5l-4.79 2.5.91-5.33L.25 5.89l5.36-.78L8 .25Z"/></svg> 3.2k stars</div>
+          <div class="actions">
+            <a class="btn primary" href="https://yamato-security.github.io/hayabusa/">Documentation</a>
+            <a class="btn" href="https://github.com/Yamato-Security/hayabusa">GitHub</a>
+          </div>
+        </div>
+
+        <div class="card" style="--c:#d9883b">
+          <div class="top">
+            <div class="crest">罠</div>
+            <div><div class="name">Hayabusa Rules</div><div class="sub">罠 · wana (trap)</div></div>
+          </div>
+          <p class="desc">Curated Windows event log Sigma rules used in Hayabusa and Velociraptor.</p>
+          <div class="meta"><svg viewBox="0 0 16 16"><path d="M8 .25l2.4 4.86 5.35.78-3.87 3.78.91 5.33L8 12.5l-4.79 2.5.91-5.33L.25 5.89l5.36-.78L8 .25Z"/></svg> 222 stars</div>
+          <div class="actions">
+            <a class="btn" href="https://github.com/Yamato-Security/hayabusa-rules">GitHub</a>
+          </div>
+        </div>
+
+        <div class="card" style="--c:#c9a227">
+          <div class="top">
+            <div class="crest sm">鷹匠</div>
+            <div><div class="name">Takajō</div><div class="sub">鷹匠 · falconer</div></div>
+          </div>
+          <p class="desc">A Hayabusa results analyzer — extract and pivot on the most important findings.</p>
+          <div class="meta"><svg viewBox="0 0 16 16"><path d="M8 .25l2.4 4.86 5.35.78-3.87 3.78.91 5.33L8 12.5l-4.79 2.5.91-5.33L.25 5.89l5.36-.78L8 .25Z"/></svg> 160 stars</div>
+          <div class="actions">
+            <a class="btn primary" href="https://yamato-security.github.io/takajo/">Documentation</a>
+            <a class="btn" href="https://github.com/Yamato-Security/takajo">GitHub</a>
+          </div>
+        </div>
+
+        <div class="card" style="--c:#5b8def">
+          <div class="top">
+            <div class="crest sm">メカ</div>
+            <div><div class="name">Mecha Hayabusa</div><div class="sub">メカ隼 · AI</div></div>
+          </div>
+          <p class="desc">AI analyzer for Hayabusa results — triage and summarize detections with LLMs.</p>
+          <div class="meta"><svg viewBox="0 0 16 16"><path d="M8 .25l2.4 4.86 5.35.78-3.87 3.78.91 5.33L8 12.5l-4.79 2.5.91-5.33L.25 5.89l5.36-.78L8 .25Z"/></svg> 22 stars</div>
+          <div class="actions">
+            <a class="btn primary" href="https://yamato-security.github.io/mecha-hayabusa/">Documentation</a>
+            <a class="btn" href="https://github.com/Yamato-Security/mecha-hayabusa">GitHub</a>
+          </div>
+        </div>
+
+        <div class="card" style="--c:#8a63d2">
+          <div class="top">
+            <div class="crest">ゑ</div>
+            <div><div class="name">WELA</div><div class="sub">ゑ羅 · event log analyzer</div></div>
+          </div>
+          <p class="desc">Windows Event Log Analyzer — audit your event log settings to make sure you are capturing the evidence you need.</p>
+          <div class="meta"><svg viewBox="0 0 16 16"><path d="M8 .25l2.4 4.86 5.35.78-3.87 3.78.91 5.33L8 12.5l-4.79 2.5.91-5.33L.25 5.89l5.36-.78L8 .25Z"/></svg> 103 stars</div>
+          <div class="actions">
+            <a class="btn primary" href="https://yamato-security.github.io/WELA/">Documentation</a>
+            <a class="btn" href="https://github.com/Yamato-Security/WELA">GitHub</a>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <section class="sec">
+      <h2>Cloud DFIR &amp; threat hunting</h2>
+      <div class="grid">
+
+        <div class="card" style="--c:#e2553b">
+          <div class="top">
+            <div class="crest">朱雀</div>
+            <div><div class="name">Suzaku</div><div class="sub">朱雀 · vermillion bird</div></div>
+          </div>
+          <p class="desc">Sigma-based threat hunting and fast forensics timeline generator for cloud logs.</p>
+          <div class="meta"><svg viewBox="0 0 16 16"><path d="M8 .25l2.4 4.86 5.35.78-3.87 3.78.91 5.33L8 12.5l-4.79 2.5.91-5.33L.25 5.89l5.36-.78L8 .25Z"/></svg> 181 stars</div>
+          <div class="actions">
+            <a class="btn" href="https://github.com/Yamato-Security/suzaku">GitHub</a>
+          </div>
+        </div>
+
+        <div class="card" style="--c:#2bb3a3">
+          <div class="top">
+            <div class="crest sm">千里</div>
+            <div><div class="name">Senrigan</div><div class="sub">千里眼 · clairvoyance</div></div>
+          </div>
+          <p class="desc">Offline, open-source AWS CloudTrail DFIR &amp; threat hunting platform — 100+ built-in hunts, Superset dashboards, AI chat and an AWS Config resource graph.</p>
+          <div class="meta"><svg viewBox="0 0 16 16"><path d="M8 .25l2.4 4.86 5.35.78-3.87 3.78.91 5.33L8 12.5l-4.79 2.5.91-5.33L.25 5.89l5.36-.78L8 .25Z"/></svg> 3 stars</div>
+          <div class="actions">
+            <a class="btn primary" href="https://yamato-security.github.io/senrigan/">Documentation</a>
+            <a class="btn" href="https://github.com/Yamato-Security/senrigan">GitHub</a>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <section class="sec">
+      <h2>Logging · datasets · community</h2>
+      <div class="grid">
+
+        <div class="card" style="--c:#3fa34d">
+          <div class="top">
+            <div class="crest sm">設定</div>
+            <div><div class="name">EnableWindowsLogSettings</div><div class="sub">設定 · log settings</div></div>
+          </div>
+          <p class="desc">Documentation and scripts to properly enable Windows event logs — so you actually capture the evidence you need.</p>
+          <div class="meta"><svg viewBox="0 0 16 16"><path d="M8 .25l2.4 4.86 5.35.78-3.87 3.78.91 5.33L8 12.5l-4.79 2.5.91-5.33L.25 5.89l5.36-.78L8 .25Z"/></svg> 708 stars</div>
+          <div class="actions">
+            <a class="btn" href="https://github.com/Yamato-Security/EnableWindowsLogSettings">GitHub</a>
+          </div>
+        </div>
+
+        <div class="card" style="--c:#6c8ea0">
+          <div class="top">
+            <div class="crest sm">検体</div>
+            <div><div class="name">Hayabusa Sample EVTX</div><div class="sub">検体 · sample logs</div></div>
+          </div>
+          <p class="desc">Sample <code>.evtx</code> files for testing Hayabusa detection rules and learning Windows event-log analysis.</p>
+          <div class="meta"><svg viewBox="0 0 16 16"><path d="M8 .25l2.4 4.86 5.35.78-3.87 3.78.91 5.33L8 12.5l-4.79 2.5.91-5.33L.25 5.89l5.36-.78L8 .25Z"/></svg> 69 stars</div>
+          <div class="actions">
+            <a class="btn" href="https://github.com/Yamato-Security/hayabusa-sample-evtx">GitHub</a>
+          </div>
+        </div>
+
+        <div class="card" style="--c:#c9609a">
+          <div class="top">
+            <div class="crest sm">講演</div>
+            <div><div class="name">Presentations</div><div class="sub">講演 · talks &amp; slides</div></div>
+          </div>
+          <p class="desc">Slides and materials from Yamato Security talks, workshops and conference presentations.</p>
+          <div class="meta"><svg viewBox="0 0 16 16"><path d="M8 .25l2.4 4.86 5.35.78-3.87 3.78.91 5.33L8 12.5l-4.79 2.5.91-5.33L.25 5.89l5.36-.78L8 .25Z"/></svg> 21 stars</div>
+          <div class="actions">
+            <a class="btn" href="https://github.com/Yamato-Security/Presentations">GitHub</a>
+          </div>
+        </div>
+
+        <div class="card" style="--c:#7a5cc0">
+          <div class="top">
+            <div class="crest sm">妖怪</div>
+            <div><div class="name">IT-Yōkai</div><div class="sub">妖怪 · IT folklore</div></div>
+          </div>
+          <p class="desc">A collection of IT Yōkai — security and IT concepts reimagined as traditional Japanese supernatural beings (妖怪).</p>
+          <div class="meta"><svg viewBox="0 0 16 16"><path d="M8 .25l2.4 4.86 5.35.78-3.87 3.78.91 5.33L8 12.5l-4.79 2.5.91-5.33L.25 5.89l5.36-.78L8 .25Z"/></svg> 7 stars</div>
+          <div class="actions">
+            <a class="btn" href="https://github.com/Yamato-Security/IT-Yokai">GitHub</a>
+          </div>
+        </div>
+
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="socials">
+      <a class="btn" href="https://github.com/Yamato-Security">GitHub Organization</a>
+      <a class="btn" href="https://twitter.com/SecurityYamato">X / Twitter</a>
+    </div>
+    <div>Yamato Security 大和セキュリティ — based in Japan, building free tools for defenders worldwide.</div>
+    <div class="fineprint">All projects are open source. © Yamato Security. Logos and names belong to their respective projects.</div>
+  </footer>
+
+</div>
+</body>
+</html>
